@@ -4,6 +4,7 @@ import com.example.ecommerce.entity.Customer;
 import com.example.ecommerce.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -30,15 +31,16 @@ public class CustomerService {
     }
 
     // Update
+    @Transactional
     public Customer updateCustomer(Long id, Customer customerDetails) {
         Customer customer = customerRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Customer not found for id :: " + id));
         customer.setName(customerDetails.getName());
-        customer.setEmail(customerDetails.getEmail());
         return customerRepository.save(customer);
     }
 
     // Delete
+    @Transactional
     public void deleteCustomer(Long id) {
         Customer customer = customerRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Customer not found for id :: " + id));
